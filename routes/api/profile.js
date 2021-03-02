@@ -2,6 +2,7 @@ const express = require('express');
 const auth = require('./../../middleware/auth');
 const Profile = require('./../../models/profile');
 const User = require('./../../models/User');
+const Post = require('./../../models/posts');
 const router = express.Router();
 const request = require('request');
 const config  = require('config');
@@ -19,6 +20,7 @@ router.get('/me', auth, async (req, res) => {
         {
             return res.status(400).json({errors: [{msg: "There is no profile for this User"}]});
         }
+        res.json(profile);
     }
     catch(err)
     {
@@ -158,6 +160,9 @@ router.get('/user/:user_id', async (req, res)=>{
 
 router.delete('/', auth, async (req, res)=>{
     try{
+        //Remove User posts
+        await Post.deleteMany({user: req.user.id});
+
         //remove user's profile
         await Profile.findOneAndRemove({
             user: req.user.id
