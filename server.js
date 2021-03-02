@@ -9,7 +9,7 @@ connectDB();
 //Init Middleware
 app.use(express.json({ extended: false}));
 
-//Commenting out this line for deployment
+//Commenting out this line for deployment - 
 // app.get('/', (req, res) => res.send('API Running'));
 
 //Define routes
